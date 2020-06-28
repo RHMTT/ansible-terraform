@@ -120,9 +120,14 @@ resource "azurerm_virtual_machine" "site" {
       private_key = "${var.ssh_key}"
     }
   }
-
+# Example of Executing an Ansible Tower job
   provisioner "local-exec" {
-    command = "ansible-playbook -i ../ansible/inventory.yaml --private-key ${var.ssh_key_path} ../ansible/httpd.yml"
+    command = "curl -qs -X POST -H 'Content-type: application/json' 'https://ansible-tower/api/v2/job_templates/16/launch/'"
   }
+
+## Example of executing an Ansible job
+#  provisioner "local-exec" {
+#    command = "ansible-playbook -i ../ansible/inventory.yaml --private-key ${var.ssh_key_path} ../ansible/httpd.yml"
+#  }
 
 }
