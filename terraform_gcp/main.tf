@@ -53,7 +53,12 @@ resource "google_compute_instance" "tfansible" {
       private_key = "${file("${var.private_key_path}")}"
     }
   }
-  provisioner "local-exec" {
+## Example of Executing an Ansible Tower job
+#  provisioner "local-exec" {
+#    command = "curl -qs -X POST -H 'Content-type: application/json' 'https://ansible-tower/api/v2/job_templates/16/launch/'"
+#  }
+
+provisioner "local-exec" {
     command = "ansible-playbook -i '${google_compute_instance.tfansible.network_interface.0.access_config.0.assigned_nat_ip},' --private-key ${var.private_key_path} ../ansible/httpd.yml"
   }
 
